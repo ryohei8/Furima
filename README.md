@@ -1,4 +1,4 @@
-<!-- ## users
+## users
 
 | Column                | Type   | Options                   |
 | --------------------- | ------ | ------------------------- |
@@ -62,4 +62,4 @@
 | purchase_record | references | null: false, foreign_key: true |
 
 ### Association
-- belongs_to :purchase_record -->
+- belongs_to :purchase_record
