@@ -10,4 +10,7 @@ class User < ApplicationRecord
   validates :last_name_kana, :first_name_kana, format: { with: /\A[\p{katakana}\p{blank}ー－]+\z/, message: 'はカタカナで入力して下さい。' }
   validates :password, format: { with: /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i, message: 'は英数字の混合である必要があります'}
   validates :birthday, presence: true
+
+  has_many :items
+  has_many :purchase_records
 end
