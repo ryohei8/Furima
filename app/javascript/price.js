@@ -12,7 +12,7 @@ function priceCalculation(){
     // 販売手数料10%計算
     let feeResult = Math.floor(priceValue * 0.1);
     // 販売利益計算
-    let profitResult = priceValue - feeResult;
+    let profitResult = Math.floor(priceValue - feeResult);
     // 計算した販売手数料・販売利益表示
     salesFee.innerHTML = feeResult.toLocaleString();
     salesProfit.innerHTML = profitResult.toLocaleString();
@@ -21,4 +21,4 @@ function priceCalculation(){
 
 priceCalculation()
 
-window.addEventListener('load', pullDown)
+window.addEventListener('turbo:load', priceCalculation)
