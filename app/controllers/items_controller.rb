@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :get_item_id, only: [:show, :edit, :update, :move_to_index]
+  before_action :get_item_id, only: [:show, :edit, :update, :destroy, :move_to_index]
   before_action :move_to_index, only: [:edit]
 
 
@@ -31,6 +31,15 @@ class ItemsController < ApplicationController
       redirect_to item_path
     else
       render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if user_signed_in? && (current_user.id == @item.user_id)
+      @item.destroy
+      redirect_to root_path # rubocop:disable Style/IdenticalConditionalBranches
+    else
+      redirect_to root_path # rubocop:disable Style/IdenticalConditionalBranches
     end
   end
 
