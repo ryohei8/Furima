@@ -1,5 +1,7 @@
 class ItemsController < ApplicationController
+  before_action :get_item_id, only: [:show, :edit, :update, :move_to_index]
   before_action :move_to_index, only: [:edit]
+
 
   def index
     @items = Item.order(created_at: :desc)
@@ -19,15 +21,12 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(params[:id])
   end
 
   def edit
-    @item = Item.find(params[:id])
   end
 
   def update
-    @item = Item.find(params[:id])
     if @item.update(item_params)
       redirect_to item_path
     else
@@ -42,8 +41,11 @@ class ItemsController < ApplicationController
                                  :shipping_day_id, :price, :image).merge(user_id: current_user.id)
   end
 
-  def move_to_index
+  def get_item_id # rubocop:disable Naming/AccessorMethodName
     @item = Item.find(params[:id])
+  end
+
+  def move_to_index
     redirect_to root_path unless current_user && (current_user.id == @item.user_id)
   end
 end
