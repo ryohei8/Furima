@@ -1,4 +1,5 @@
 class OrdersController < ApplicationController
+  before_action :move_to_login, only: [:index]
   before_action :move_to_index, only: [:index]
   def index
     @order = Order.new
@@ -24,14 +25,15 @@ class OrdersController < ApplicationController
                                   ).merge(user_id: current_user.id, item_id: @item.id, token: params[:token])
   end
 
-  def move_to_index
+  def move_to_login
     if current_user.nil?
-      redirect_to root_path
-      return
+      redirect_to new_user_session_path
     end
+  end
 
+  def move_to_index
     @item = Item.find(params[:item_id])
-    if @item.purchase_record.present? || current_user.id == @item.user_id
+    if @item.purchase_record.present?
       redirect_to root_path
     end
   end
