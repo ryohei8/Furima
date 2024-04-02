@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
   before_action :move_to_login, only: [:index]
   before_action :move_to_index, only: [:index]
   def index
+    gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     @order = Order.new
     @item = Item.find(params[:item_id])
   end
@@ -39,7 +40,7 @@ class OrdersController < ApplicationController
   end
 
   def pay_item
-    Payjp.api_key = 'sk_test_2ccd987ca658610d0c02666c'
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
       amount: @item.price,
       card: order_params[:token],
