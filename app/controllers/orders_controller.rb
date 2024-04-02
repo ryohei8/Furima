@@ -1,13 +1,12 @@
 class OrdersController < ApplicationController
   before_action :move_to_login, only: [:index]
-  before_action :move_to_index, only: [:index]
+  before_action :move_to_index, only: [:index, :create]
   def index
     gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     @order = Order.new
   end
 
   def create
-    @item = Item.find(params[:item_id])# ネストしてて親の情報欲しかったらitem_id、子だったら[:id]
     @order = Order.new(order_params)
     if @order.valid?
       pay_item
@@ -33,7 +32,7 @@ class OrdersController < ApplicationController
 
   def move_to_index
     @item = Item.find(params[:item_id])
-    if @item.purchase_record.present?
+    if @item.purchase_record.present? || current_user.id == @item.user_id
       redirect_to root_path
     end
   end
