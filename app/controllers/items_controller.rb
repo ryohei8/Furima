@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   before_action :get_item_id, only: [:show, :edit, :update, :destroy, :move_to_index]
+  before_action :move_to_login, only: [:new, :edit]
   before_action :move_to_index, only: [:edit]
 
 
@@ -55,7 +56,12 @@ class ItemsController < ApplicationController
   end
 
   def move_to_index
-    redirect_to root_path unless current_user && (current_user.id == @item.user_id)
-    redirect_to root_path if @item.purchase_record.present?
+    if @item.purchase_record.present? || (current_user && current_user.id != @item.user_id)
+      redirect_to root_path
+    end
+  end
+
+  def move_to_login
+    redirect_to new_user_session_path if current_user.nil?
   end
 end
