@@ -1,9 +1,9 @@
-// //価格フィールドに価格（半角数字）を入れたら販売手数料と販売利益が自動計算されて表示される。
+// 価格フィールドに価格（半角数字）を入れたら販売手数料と販売利益が自動計算されて表示される。
 function priceCalculation(){
   // 価格フィールド、販売手数料・販売利益表示箇所を取得する
-  let priceInputField = document.getElementById("item-price");
-  let salesFee = document.getElementById("add-tax-price");
-  let salesProfit = document.getElementById("profit");
+  let priceInputField = document.getElementById('item-price');
+  let salesFee = document.getElementById('add-tax-price');
+  let salesProfit = document.getElementById('profit');
 
   // 価格フィールドに入力したとき
   priceInputField.addEventListener("input", function(){
@@ -17,8 +17,9 @@ function priceCalculation(){
     salesFee.innerHTML = feeResult.toLocaleString();
     salesProfit.innerHTML = profitResult.toLocaleString();
   });
-};
+}
 
-priceCalculation()
+  // priceCalculation();
 
 window.addEventListener('turbo:load', priceCalculation)
+window.addEventListener("turbo:render", priceCalculation);
