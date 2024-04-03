@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   before_action :move_to_login, only: [:index]
   before_action :move_to_index, only: [:index, :create]
   def index
-    gon.public_key = ENV['PAYJP_PUBLIC_KEY']
+    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
     @order = Order.new
   end
 
@@ -13,7 +13,8 @@ class OrdersController < ApplicationController
       @order.save
       redirect_to root_path
     else
-      render :index, status: :unprocessable_entity
+      gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
+      render 'index', status: :unprocessable_entity
     end
   end
 
@@ -38,7 +39,7 @@ class OrdersController < ApplicationController
   end
 
   def pay_item
-    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
       amount: @item.price,
       card: order_params[:token],
